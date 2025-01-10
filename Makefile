@@ -16,6 +16,12 @@ gencert:
 		-config=cert/ca-config.json \
 		-profile=server \
 		cert/server-csr.json | cfssljson -bare server
+	cfssl gencert \
+		-ca=ca.pem \
+		-ca-key=ca-key.pem \
+		-config=cert/ca-config.json \
+		-profile=client \
+ 		cert/client-csr.json | cfssljson -bare client
 	move *.pem ${CONFIG_PATH}
 	move *.csr ${CONFIG_PATH}
 
