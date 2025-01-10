@@ -25,6 +25,7 @@ gencert:
 	move *.pem ${CONFIG_PATH}
 	move *.csr ${CONFIG_PATH}
 
+.PHONY: compile
 compile:
 	protoc spec/*.proto \
 		--go_out=. \
@@ -32,3 +33,7 @@ compile:
 		--go_opt=paths=source_relative \
 		--go-grpc_opt=paths=source_relative \
 		--proto_path=.
+
+.PHONY: test
+test:
+	go test -race ./server
