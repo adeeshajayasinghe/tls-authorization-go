@@ -20,6 +20,8 @@ func TestServer(t *testing.T) {
 
 	clientTLSConfig, err := config.SetupTLSConfig(config.TLSConfig{
 		CAFile: config.CAFile,
+		KeyFile: config.ClientKeyFile,
+		CertFile: config.ClientCertFile,
 	})
 	require.NoError(t, err)
 
@@ -35,6 +37,7 @@ func TestServer(t *testing.T) {
 		KeyFile: config.ServerKeyFile,
 		CAFile: config.CAFile,
 		ServerAddress: l.Addr().String(),
+		Server: true,
 	})
 	require.NoError(t, err)
 
