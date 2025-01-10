@@ -1,3 +1,24 @@
+CONFIG_PATH := $(USERPROFILE)\certs
+
+.PHONY: init
+
+init:
+	mkdir ${CONFIG_PATH}
+
+.PHONY: gencert
+
+gencert:
+	cfssl gencert \
+		-initca cert/ca-csr.json | cfssljson -bare ca
+	cfssl gencert \
+		-ca=ca.pem \
+		-ca-key=ca-key.pem \
+		-config=cert/ca-config.json \
+		-profile=server \
+		cert/server-csr.json | cfssljson -bare server
+	move *.pem ${CONFIG_PATH}
+	move *.csr ${CONFIG_PATH}
+
 compile:
 	protoc spec/*.proto \
 		--go_out=. \
